@@ -2,7 +2,7 @@
 name: Documentation
 about: Add new or edit existing documentation
 title: "[documentation] - Documentation description"
-labels: documentation, back-end
+labels: documentation, front-end
 assignees: ''
 
 ---

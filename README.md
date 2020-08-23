@@ -1,5 +1,5 @@
-# whatz-hot-backend
+# whatz-hot-frontend
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/dba34d981a32416f9241025b21b3ce3f)](https://www.codacy.com/gh/BuildForSDGCohort2/whatz-hot-backend?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=BuildForSDGCohort2/whatz-hot-backend&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/47467de51fff4c58b009487243e1a623)](https://www.codacy.com/gh/BuildForSDGCohort2/whatz-hot-frontend?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=BuildForSDGCohort2/whatz-hot-frontend&amp;utm_campaign=Badge_Grade)
 
-Welcome to the Whatz Hot! backend repo. More details coming soon! Meanwhile you can read our contribution guide [here](contributing.md)
+Welcome to the Whatz Hot! frontend repo. More details coming soon! Meanwhile you can read our contribution guide [here](contributing.md)

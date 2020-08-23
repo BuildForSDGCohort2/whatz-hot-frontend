@@ -2,7 +2,7 @@
 name: Bug Report
 about: Something is not working as it should
 title: '[bug] - ABC Fails When...'
-labels: bug, back-end
+labels: bug, front-end
 assignees: ''
 ---
 
