@@ -3,7 +3,7 @@
 name: Feature
 about: A new feature for this project
 title: "[feature] - Feature title"
-labels: feature, back-end
+labels: feature, front-end
 assignees: ''
 
 ---
