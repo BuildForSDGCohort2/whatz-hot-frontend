@@ -28,7 +28,8 @@ jobs:
           npm run build
           npm run test:codacy
       
-      - name: Persist build directory
+      - if: ${{ github.event_name == 'push' }}
+        name: Persist build directory
         uses: actions/upload-artifact@v2
         with:
           name: build-directory
