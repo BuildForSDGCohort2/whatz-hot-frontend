@@ -18,7 +18,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "test:ci": "react-scripts test --passWithNoTests",
-    "test:codacy": "NODE_ENV=test jest --coverage --verbose &&  cat ./coverage/lcov.info | codacy-coverage"
+    "test:codacy": "npm test -- --coverage --verbose && cat ./coverage/lcov.info | codacy-coverage"
   },
   "eslintConfig": {
     "extends": "react-app"
