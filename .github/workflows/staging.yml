@@ -2,6 +2,7 @@ name: Staging (Development) CI/CD
 
 on:
   push:
+  pull_request:
   pull_request_target:
     branches:
       - develop
