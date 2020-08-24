@@ -15,18 +15,25 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Setup Node and Install Packages
+      - name: Install Node
         uses: actions/setup-node@v1
         with:
           node-version: 12.x
 
-      - name: Run Linting and Tests
+      - name: Install Packages, Run Linting and Tests
         env:
           CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
         run: |
           npm ci
           npm run build
           npm run test:codacy
+      
+      - if: ${{ github.event_name == 'push' }}
+        name: Persist build directory
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-directory
+          path: build
 
   deploy:
     if: ${{ github.event_name == 'push' && github.repository == 'BuildForSDGCohort2/whatz-hot-frontend' }}
@@ -34,6 +41,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
+      - name: Get saved build directory
+        uses: actions/download-artifact@v2
+        with:
+          name: build-directory
 
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v1.1
