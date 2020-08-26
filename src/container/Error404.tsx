@@ -1,10 +1,13 @@
 import React from 'react';
+import { Card, H1 } from '@blueprintjs/core';
 
 const Error404 = () => {
   return (
-    <div data-test-id='error'>
-      <h1>404 page not found</h1>
-    </div>
+    <>
+      <Card>
+        <H1>404 page not found</H1>
+      </Card>
+    </>
   );
 };
 
