@@ -16,7 +16,8 @@ import {
   LegalCopy,
   SubHeading,
   NameWrapper,
-  InputWrapper
+  InputWrapper,
+  H6
 } from '../../styles/userauthstyles';
 import { AppState } from '../../redux';
 import { Ui } from '../../redux/models/ui';
@@ -30,6 +31,8 @@ interface Istate {
   email: string;
   password: string;
   isSignedIn: Boolean;
+  error: Boolean;
+  errMessage: string;
 }
 interface Iprops extends RouteComponentProps<{ history: any }> {}
 
@@ -43,7 +46,9 @@ class Login extends Component<props, Istate> {
       lastName: '',
       email: '',
       password: '',
-      isSignedIn: false
+      isSignedIn: false,
+      error: false,
+      errMessage: ''
     };
   }
 
@@ -56,7 +61,6 @@ class Login extends Component<props, Istate> {
           this.setState({ isSignedIn: !!user });
         }
       }
-      console.log(user);
     });
   };
 
@@ -67,27 +71,31 @@ class Login extends Component<props, Istate> {
       email: this.state.email,
       password: this.state.password
     };
-    try {
-      auth
-        .createUserWithEmailAndPassword(newUser.email, newUser.password)
-        .then(() => {
-          const user = auth.currentUser;
-          if (user !== null) {
-            user?.updateProfile({
-              displayName
-            });
-          }
-          this.props.history.push('/verifymail');
+    auth
+      .createUserWithEmailAndPassword(newUser.email, newUser.password)
+      .then(() => {
+        const user = auth.currentUser;
+        if (user !== null) {
+          user?.updateProfile({
+            displayName
+          });
+        }
+        this.props.history.push('/verifymail');
+      })
+      .catch((err) => {
+        this.setState({
+          error: true,
+          errMessage: err.message
         });
-    } catch (error) {
-      console.log('Error Signing up with email and password');
-    }
+      });
     console.log(displayName);
     this.setState({
       email: '',
       password: '',
       firstName: '',
-      lastName: ''
+      lastName: '',
+      error: false,
+      errMessage: ''
     });
   };
   handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -127,7 +135,11 @@ class Login extends Component<props, Istate> {
                         <StyleFirebaseAuthUi />
                       </ButtonWrapper>
                     </div>
-
+                    {this.state.error ? (
+                      <InputWrapper>
+                        <H6>{this.state.errMessage}</H6>
+                      </InputWrapper>
+                    ) : null}
                     <NameWrapper>
                       <InputWrapper>
                         <FormGroup

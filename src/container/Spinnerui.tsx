@@ -7,7 +7,7 @@ const SpinnerUi = () => {
     <Wrapper>
       <SpinnerWrapper>
         <InnerWrapper>
-          <Spinner size={20} intent={'primary'} className='spinnerstyle' />
+          <Spinner size={20} intent={'primary'} />
         </InnerWrapper>
       </SpinnerWrapper>
     </Wrapper>

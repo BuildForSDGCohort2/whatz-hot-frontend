@@ -32,6 +32,12 @@ export const H2 = styled.h2`
   text-transform: capitalize;
   padding-bottom: 10px;
 `;
+export const H6 = styled.h6`
+  color: red;
+  text-align: center;
+  font-style: bold;
+  font-size: 12px;
+`;
 export const SubHeading = styled.p`
   text-align: center;
   text-transform: capitalize;
