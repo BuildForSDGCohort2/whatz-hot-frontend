@@ -26,6 +26,7 @@ const Header = styled.header`
   height: 70px;
   padding: 0 15px;
   position: relative;
+  font-family: 'Parisienne', cursive;
   width: 100%;
   z-index: 10;
 `;
