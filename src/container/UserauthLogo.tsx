@@ -1,12 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
-import signimg from '../images/signup_illustration.png';
+import signimg from '../images/logo.jpg';
 
 const UserauthLogo = () => {
   return (
     <>
       <SideWrapper>
-        <img src={signimg} alt='sigup illustration' />
+        <img
+          src={signimg}
+          alt='sigup illustration'
+          width='600px'
+          height='400px'
+        />
       </SideWrapper>
     </>
   );

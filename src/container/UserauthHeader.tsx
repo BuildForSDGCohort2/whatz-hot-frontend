@@ -7,7 +7,7 @@ const navstyler = {
 const UserauthHeader = () => {
   return (
     <Header style={navstyler}>
-      <H3>whatz-hot</H3>
+      <H3>whatz hot!</H3>
     </Header>
   );
 };
@@ -16,8 +16,11 @@ const H3 = styled.h3`
   text-align: center;
   margin-top: 0;
   padding-top: 15px;
-  font-size: 22px;
+  font-size: 35px;
   color: #fff;
+  font-family: 'Pacifico', cursive;
+  font-style: bold;
+  text-transform: capitalize;
 `;
 const Header = styled.header`
   background-color: #ffffff;
@@ -26,7 +29,6 @@ const Header = styled.header`
   height: 70px;
   padding: 0 15px;
   position: relative;
-  font-family: 'Parisienne', cursive;
   width: 100%;
   z-index: 10;
 `;

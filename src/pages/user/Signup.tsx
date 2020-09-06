@@ -17,7 +17,10 @@ import {
   SubHeading,
   NameWrapper,
   InputWrapper,
-  H6
+  H6,
+  Span,
+  SpanWrapper,
+  SpanBorder
 } from '../../styles/userauthstyles';
 import { AppState } from '../../redux';
 import { Ui } from '../../redux/models/ui';
@@ -38,7 +41,7 @@ interface Iprops extends RouteComponentProps<{ history: any }> {}
 
 type props = Iprops & LinkStateProp;
 
-class Login extends Component<props, Istate> {
+class Signup extends Component<props, Istate> {
   constructor(props: props) {
     super(props);
     this.state = {
@@ -80,7 +83,7 @@ class Login extends Component<props, Istate> {
             displayName
           });
         }
-        this.props.history.push('/verifymail');
+        this.props.history.push('/success');
       })
       .catch((err) => {
         this.setState({
@@ -88,7 +91,6 @@ class Login extends Component<props, Istate> {
           errMessage: err.message
         });
       });
-    console.log(displayName);
     this.setState({
       email: '',
       password: '',
@@ -115,25 +117,30 @@ class Login extends Component<props, Istate> {
           <SpinnerUi />
         ) : (
           <Wrapper>
-            <Col>
+            <Row>
               <UserauthHeader />
-            </Col>
-            <Col>
-              <Row>
+            </Row>
+            <Row>
+              <Col>
                 <FormWrapper>
                   <Form onSubmit={this.handleSubmit}>
                     <div>
                       <H2>sign up for whatz-hot</H2>
                       <SubHeading>connect to local businesses</SubHeading>
                       <LegalCopy>
-                        By continuing, you agree to Yelp’s{' '}
-                        <Link to='/termsofservice'>Terms of Service</Link> and
-                        acknowledge whatz-hot's
-                        <Link to='/privacypolicy'>Privacy Policy.</Link>
+                        By continuing, you agree to whatz hot’s{' '}
+                        <Link to='/termsofservice'> Terms of Service</Link> and
+                        acknowledge whatz hot's
+                        <Link to='/privacypolicy'> Privacy Policy.</Link>
                       </LegalCopy>
                       <ButtonWrapper>
                         <StyleFirebaseAuthUi />
                       </ButtonWrapper>
+                      <SpanWrapper>
+                        <SpanBorder></SpanBorder>
+                        <Span>or</Span>
+                        <SpanBorder></SpanBorder>
+                      </SpanWrapper>
                     </div>
                     {this.state.error ? (
                       <InputWrapper>
@@ -142,11 +149,7 @@ class Login extends Component<props, Istate> {
                     ) : null}
                     <NameWrapper>
                       <InputWrapper>
-                        <FormGroup
-                          helperText='Helper text with details...'
-                          label='First Name'
-                          labelFor='first-name'
-                        >
+                        <FormGroup label='First Name' labelFor='first-name'>
                           <InputGroup
                             id='first-name'
                             type='text'
@@ -158,11 +161,7 @@ class Login extends Component<props, Istate> {
                         </FormGroup>
                       </InputWrapper>
                       <InputWrapper>
-                        <FormGroup
-                          helperText='Helper text with details...'
-                          label='Last Name'
-                          labelFor='last-name'
-                        >
+                        <FormGroup label='Last Name' labelFor='last-name'>
                           <InputGroup
                             id='last-name'
                             type='text'
@@ -176,11 +175,7 @@ class Login extends Component<props, Istate> {
                     </NameWrapper>
                     <NameWrapper>
                       <InputWrapper>
-                        <FormGroup
-                          helperText='Helper text with details...'
-                          label='Email'
-                          labelFor='email'
-                        >
+                        <FormGroup label='Email' labelFor='email'>
                           <InputGroup
                             id='email'
                             type='email'
@@ -190,11 +185,7 @@ class Login extends Component<props, Istate> {
                             onChange={this.handleChange}
                           />
                         </FormGroup>
-                        <FormGroup
-                          helperText='Helper text with details...'
-                          label='Password'
-                          labelFor='password'
-                        >
+                        <FormGroup label='Password' labelFor='password'>
                           <InputGroup
                             id='password'
                             type='password'
@@ -221,11 +212,11 @@ class Login extends Component<props, Istate> {
                     </ButtonWrapper>
                   </Form>
                 </FormWrapper>
-              </Row>
-              <Row>
+              </Col>
+              <Col>
                 <UserauthLogo />
-              </Row>
-            </Col>
+              </Col>
+            </Row>
           </Wrapper>
         )}
       </>
@@ -241,4 +232,4 @@ const mapStateToProps = (state: AppState, ownprops: props): LinkStateProp => ({
   ui: state.Ui
 });
 
-export default connect(mapStateToProps)(Login);
+export default connect(mapStateToProps)(Signup);

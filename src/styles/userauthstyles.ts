@@ -5,12 +5,12 @@ export const Wrapper = styled.div`
   flex-direction: column;
 `;
 
-export const Col = styled.div`
+export const Row = styled.div`
   display: flex;
   flex-direction: row;
   height: 100%;
 `;
-export const Row = styled.div`
+export const Col = styled.div`
   flex-grow: 1;
 `;
 export const FormWrapper = styled.div`
@@ -75,4 +75,24 @@ export const InputWrapper = styled.div`
 export const NameWrapperInput = styled.div`
   flex-grow: 1;
   margin-left: 10px;
+`;
+export const SpanWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-right: 10px;
+  margin-bottom: 10px;
+`;
+
+export const Span = styled.span`
+  flex-grow: 1;
+  text-align: center;
+  display: block;
+  text-transform: uppercase;
+`;
+
+export const SpanBorder = styled.span`
+  flex-grow: 1;
+  margin-bottom: 5px;
+  display: block;
+  border-bottom: 1px solid grey;
 `;

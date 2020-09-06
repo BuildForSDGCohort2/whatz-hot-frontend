@@ -8,6 +8,7 @@ import { Provider as StoreProvider } from 'react-redux';
 import { createGlobalStyle } from 'styled-components';
 import Signup from './pages/user/Signup';
 import Homepage from './container/Homepage';
+import VerifyEmail from './container/VerifyEmail';
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
           <Route exact path='/' component={header} />
           <Route exact path='/signup' component={Signup} />
           <Route exact path='/homepage' component={Homepage} />
+          <Route exact path='/success' component={VerifyEmail} />
           <Route path='*' component={Error404} />
         </Switch>
       </Router>
