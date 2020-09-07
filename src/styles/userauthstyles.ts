@@ -3,12 +3,12 @@ import styled from 'styled-components';
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
 `;
 
 export const Row = styled.div`
   display: flex;
   flex-direction: row;
-  height: 100%;
 `;
 export const Col = styled.div`
   flex-grow: 1;
@@ -23,6 +23,9 @@ export const Form = styled.form`
   max-width: 300px;
   height: 400px;
   margin-top: 70px;
+  @media (min-width: 500px) {
+    padding-left: 10px;
+  }
 `;
 export const H2 = styled.h2`
   text-align: center;

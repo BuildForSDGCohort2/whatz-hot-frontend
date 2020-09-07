@@ -2,20 +2,28 @@ import React from 'react';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase';
 
-interface Iprops {}
+interface Iprops {
+  fullLabel: string;
+}
 interface signinprops {
   signInFlow: string;
   signInSuccessUrl: string;
-  signInOptions: string[];
+  signInOptions: Array<any>;
 }
 
-const StyledFirebaseAuthUi: React.FC<Iprops> = () => {
+const StyledFirebaseAuthUi: React.FC<Iprops> = ({ fullLabel }) => {
   const uiConfig: signinprops = {
-    signInFlow: 'popup',
+    signInFlow: 'redirect',
     signInSuccessUrl: '/homepage',
     signInOptions: [
-      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-      firebase.auth.FacebookAuthProvider.PROVIDER_ID
+      {
+        provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        fullLabel: `${fullLabel} with Google`
+      },
+      {
+        provider: firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+        fullLabel: `${fullLabel} with Facebook`
+      }
     ]
   };
   return (

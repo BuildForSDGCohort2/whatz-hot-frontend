@@ -29,13 +29,12 @@ import SpinnerUi from '../../container/Spinnerui';
 import { RouteComponentProps } from 'react-router';
 
 interface Istate {
-  firstName: string;
-  lastName: string;
+  fullName: string;
   email: string;
   password: string;
   isSignedIn: Boolean;
   error: Boolean;
-  errMessage: string;
+  errMessage: Array<any>;
 }
 interface Iprops extends RouteComponentProps<{ history: any }> {}
 
@@ -45,31 +44,18 @@ class Signup extends Component<props, Istate> {
   constructor(props: props) {
     super(props);
     this.state = {
-      firstName: '',
-      lastName: '',
+      fullName: '',
       email: '',
       password: '',
       isSignedIn: false,
       error: false,
-      errMessage: ''
+      errMessage: []
     };
   }
 
-  componentDidMount = () => {
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        user.sendEmailVerification();
-        if (user.emailVerified) {
-          this.props.history.push('/homepage');
-          this.setState({ isSignedIn: !!user });
-        }
-      }
-    });
-  };
-
   handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const displayName = this.state.firstName + ' ' + this.state.lastName;
+    const displayName = this.state.fullName;
     const newUser = {
       email: this.state.email,
       password: this.state.password
@@ -78,26 +64,28 @@ class Signup extends Component<props, Istate> {
       .createUserWithEmailAndPassword(newUser.email, newUser.password)
       .then(() => {
         const user = auth.currentUser;
-        if (user !== null) {
+        if (user !== null && this.state.fullName !== null) {
+          user?.sendEmailVerification();
           user?.updateProfile({
             displayName
           });
         }
         this.props.history.push('/success');
+        console.log(user);
       })
       .catch((err) => {
         this.setState({
           error: true,
-          errMessage: err.message
+          errMessage: [...this.state.errMessage, err.message]
         });
+        console.log(this.state.errMessage);
       });
     this.setState({
       email: '',
       password: '',
-      firstName: '',
-      lastName: '',
+      fullName: '',
       error: false,
-      errMessage: ''
+      errMessage: []
     });
   };
   handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -118,7 +106,9 @@ class Signup extends Component<props, Istate> {
         ) : (
           <Wrapper>
             <Row>
-              <UserauthHeader />
+              <Col>
+                <UserauthHeader />
+              </Col>
             </Row>
             <Row>
               <Col>
@@ -134,7 +124,7 @@ class Signup extends Component<props, Istate> {
                         <Link to='/privacypolicy'> Privacy Policy.</Link>
                       </LegalCopy>
                       <ButtonWrapper>
-                        <StyleFirebaseAuthUi />
+                        <StyleFirebaseAuthUi fullLabel={'Sign up'} />
                       </ButtonWrapper>
                       <SpanWrapper>
                         <SpanBorder></SpanBorder>
@@ -149,25 +139,13 @@ class Signup extends Component<props, Istate> {
                     ) : null}
                     <NameWrapper>
                       <InputWrapper>
-                        <FormGroup label='First Name' labelFor='first-name'>
+                        <FormGroup label='Full Name' labelFor='full-name'>
                           <InputGroup
-                            id='first-name'
+                            id='full-name'
                             type='text'
-                            name='firstName'
-                            placeholder='first name'
-                            value={this.state.firstName}
-                            onChange={this.handleChange}
-                          />
-                        </FormGroup>
-                      </InputWrapper>
-                      <InputWrapper>
-                        <FormGroup label='Last Name' labelFor='last-name'>
-                          <InputGroup
-                            id='last-name'
-                            type='text'
-                            name='lastName'
-                            placeholder='last name'
-                            value={this.state.lastName}
+                            name='fullName'
+                            placeholder='Full name'
+                            value={this.state.fullName}
                             onChange={this.handleChange}
                           />
                         </FormGroup>
