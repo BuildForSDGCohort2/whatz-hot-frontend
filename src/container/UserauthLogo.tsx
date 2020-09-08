@@ -14,7 +14,7 @@ const UserauthLogo = () => {
 
 const SideWrapper = styled.div`
   width: 100%;
-  max-width: 550px;
+  max-width: 600px;
   height: 400px;
   margin-top: 150px;
   padding-left: 35px;

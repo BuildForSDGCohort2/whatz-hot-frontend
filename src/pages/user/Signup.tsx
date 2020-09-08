@@ -145,6 +145,8 @@ class Signup extends Component<props, Istate> {
                             type='text'
                             name='fullName'
                             placeholder='Full name'
+                            required
+                            minLength={8}
                             value={this.state.fullName}
                             onChange={this.handleChange}
                           />
@@ -158,6 +160,7 @@ class Signup extends Component<props, Istate> {
                             id='email'
                             type='email'
                             name='email'
+                            required
                             placeholder='Email'
                             value={this.state.email}
                             onChange={this.handleChange}
