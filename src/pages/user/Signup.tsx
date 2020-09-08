@@ -27,6 +27,7 @@ import { Ui } from '../../redux/models/ui';
 import { connect } from 'react-redux';
 import SpinnerUi from '../../container/Spinnerui';
 import { RouteComponentProps } from 'react-router';
+import { setUiLoading } from '../../redux/actions/uiActions';
 
 interface Istate {
   fullName: string;
@@ -55,6 +56,7 @@ class Signup extends Component<props, Istate> {
 
   handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    setUiLoading();
     const displayName = this.state.fullName;
     const newUser = {
       email: this.state.email,
@@ -172,6 +174,8 @@ class Signup extends Component<props, Istate> {
                             type='password'
                             name='password'
                             placeholder='Password'
+                            required
+                            minLength={6}
                             value={this.state.password}
                             onChange={this.handleChange}
                           />
@@ -186,7 +190,7 @@ class Signup extends Component<props, Istate> {
                         fill={true}
                         type='submit'
                         onSubmit={this.handleSubmit}
-                        disabled={loading}
+                        disabled={!!loading}
                       >
                         Sign Up
                       </Button>
