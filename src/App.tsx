@@ -2,18 +2,28 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import header from './container/Header';
 import './App.css';
+import store from './redux/index';
 import Error404 from './container/Error404';
+import { Provider as StoreProvider } from 'react-redux';
 import { createGlobalStyle } from 'styled-components';
+import Signup from './pages/user/Signup';
+import Homepage from './container/Homepage';
+import VerifyEmail from './container/VerifyEmail';
 
 const App = () => {
   return (
-    <Router>
-      <GlobalStyle />
-      <Switch>
-        <Route exact path='/' component={header} />
-        <Route path='*' component={Error404} />
-      </Switch>
-    </Router>
+    <StoreProvider store={store}>
+      <Router>
+        <GlobalStyle />
+        <Switch>
+          <Route exact path='/' component={header} />
+          <Route exact path='/signup' component={Signup} />
+          <Route exact path='/homepage' component={Homepage} />
+          <Route exact path='/success' component={VerifyEmail} />
+          <Route path='*' component={Error404} />
+        </Switch>
+      </Router>
+    </StoreProvider>
   );
 };
 
