@@ -1,11 +1,13 @@
 import { combineReducers, applyMiddleware, compose, createStore } from 'redux';
 
 import thunk, { ThunkMiddleware } from 'redux-thunk';
-import uiReducer from './reducers/Ui';
-import { AppActions } from './types/actions';
+import userReducer from './reducers/userReducer';
+import { AppActions } from './types/appAction';
+import uiReducer from './reducers/uiReducer';
 
 export const rootReducer = combineReducers({
-  Ui: uiReducer
+  Ui: uiReducer,
+  user: userReducer
 });
 
 export type AppState = ReturnType<typeof rootReducer>;

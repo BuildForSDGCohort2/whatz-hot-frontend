@@ -1,6 +1,6 @@
 import { Ui } from '../models/ui';
-import { AppActions } from '../types/actions';
 import { Dispatch } from 'redux';
+import { AppActions } from '../types/appAction';
 
 export const loadui = (ui: Ui): AppActions => ({
   type: 'UI_LOADING'

@@ -5,5 +5,3 @@ export interface SetUiLoading {
 }
 
 export type UiActionTypes = SetUiLoading;
-
-export type AppActions = UiActionTypes;

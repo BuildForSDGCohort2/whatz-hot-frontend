@@ -1,5 +1,5 @@
 import { Ui } from '../models/ui';
-import { UiActionTypes } from '../types/actions';
+import { UiActionTypes } from '../types/uiActions';
 
 export const uiInitialState: Ui = {
   loading: false
