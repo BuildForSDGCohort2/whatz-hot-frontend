@@ -76,11 +76,31 @@ class Signup extends Component<props, Istate> {
         console.log(user);
       })
       .catch((err) => {
-        this.setState({
-          error: true,
-          errMessage: [...this.state.errMessage, err.message]
-        });
-        console.log(this.state.errMessage);
+        switch (err.code) {
+          case 'auth/network-request-failed':
+            return this.setState({
+              error: true,
+              errMessage: ['Please try again']
+            });
+          case 'auth/invalid-email':
+            return this.setState({
+              error: true,
+              errMessage: err.message
+            });
+          case 'auth/email-already-in-use':
+            return this.setState({
+              error: true,
+              errMessage: err.message
+            });
+          case 'auth/weak-password':
+            return this.setState({
+              error: true,
+              errMessage: err.message
+            });
+          default:
+            console.log(err);
+            return 'Sign up failed! please try again';
+        }
       });
     this.setState({
       email: '',
@@ -147,7 +167,6 @@ class Signup extends Component<props, Istate> {
                             type='text'
                             name='fullName'
                             placeholder='Full name'
-                            required
                             minLength={8}
                             value={this.state.fullName}
                             onChange={this.handleChange}
@@ -162,7 +181,6 @@ class Signup extends Component<props, Istate> {
                             id='email'
                             type='email'
                             name='email'
-                            required
                             placeholder='Email'
                             value={this.state.email}
                             onChange={this.handleChange}
@@ -174,7 +192,6 @@ class Signup extends Component<props, Istate> {
                             type='password'
                             name='password'
                             placeholder='Password'
-                            required
                             minLength={6}
                             value={this.state.password}
                             onChange={this.handleChange}
@@ -195,6 +212,9 @@ class Signup extends Component<props, Istate> {
                         Sign Up
                       </Button>
                     </ButtonWrapper>
+                    <LegalCopy>
+                      Already a member? <Link to='/login'>Sign In</Link>
+                    </LegalCopy>
                   </Form>
                 </FormWrapper>
               </Col>

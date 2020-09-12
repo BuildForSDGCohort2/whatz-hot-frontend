@@ -37,7 +37,6 @@ import { AppActions } from '../../redux/types/appAction';
 interface Istate {
   email: string;
   password: string;
-  isSignedIn: Boolean;
   error: Boolean;
   errMessage: Array<any>;
 }
@@ -45,13 +44,12 @@ interface Iprops extends RouteComponentProps<{ history: any }> {}
 
 type props = Iprops & LinkStateProp & LinkDispatchProp;
 
-class Signup extends Component<props, Istate> {
+class Login extends Component<props, Istate> {
   constructor(props: props) {
     super(props);
     this.state = {
       email: '',
       password: '',
-      isSignedIn: false,
       error: false,
       errMessage: []
     };
@@ -60,12 +58,19 @@ class Signup extends Component<props, Istate> {
   handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setUiLoading();
+    let idtoken;
     const newUser = {
       email: this.state.email,
       password: this.state.password
     };
     auth
       .signInWithEmailAndPassword(newUser.email, newUser.password)
+      .then((data) => {
+        return data.user?.getIdToken();
+      })
+      .then((token) => {
+        idtoken = token;
+      })
       .then(() => {
         const user = auth.currentUser;
         if (!user?.emailVerified) {
@@ -75,11 +80,35 @@ class Signup extends Component<props, Istate> {
         }
       })
       .catch((err) => {
-        this.setState({
-          error: true,
-          errMessage: [...this.state.errMessage, err.message]
-        });
-        console.log(this.state.errMessage);
+        switch (err.code) {
+          case 'auth/network-request-failed':
+            return this.setState({
+              error: true,
+              errMessage: ['Please try again']
+            });
+          case 'auth/invalid-email':
+            return this.setState({
+              error: true,
+              errMessage: err.message
+            });
+          case 'auth/weak-password':
+            return this.setState({
+              error: true,
+              errMessage: err.message
+            });
+          case 'auth/wrong-password':
+            return this.setState({
+              error: true,
+              errMessage: err.message
+            });
+          case 'auth/user-not-found':
+            return this.setState({
+              error: true,
+              errMessage: err.message
+            });
+          default:
+            return 'Log in failed';
+        }
       });
     this.setState({
       email: '',
@@ -146,7 +175,6 @@ class Signup extends Component<props, Istate> {
                             id='email'
                             type='email'
                             name='email'
-                            required
                             placeholder='Email'
                             value={this.state.email}
                             onChange={this.handleChange}
@@ -158,7 +186,6 @@ class Signup extends Component<props, Istate> {
                             type='password'
                             name='password'
                             placeholder='Password'
-                            required
                             minLength={6}
                             value={this.state.password}
                             onChange={this.handleChange}
@@ -214,4 +241,4 @@ const mapDispatchToProp = (
   setUiLoading: bindActionCreators(setUiLoading, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProp)(Signup);
+export default connect(mapStateToProps, mapDispatchToProp)(Login);
