@@ -58,7 +58,7 @@ class Login extends Component<props, Istate> {
   handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setUiLoading();
-    let idtoken;
+    let idtoken: string | undefined;
     const newUser = {
       email: this.state.email,
       password: this.state.password
@@ -76,6 +76,14 @@ class Login extends Component<props, Istate> {
         if (!user?.emailVerified) {
           this.props.history.push('/success');
         } else {
+          const userCred = {
+            id: user?.uid,
+            displayName: user?.displayName,
+            email: user?.email,
+            photoUrl: user.photoURL,
+            token: idtoken
+          };
+          this.props.setLoadUser(userCred);
           this.props.history.push('/homepage');
         }
       })
