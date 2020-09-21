@@ -7,7 +7,7 @@ interface Iprops extends RouteComponentProps<any> {}
 const Homepage: React.FC<Iprops> = (props) => {
   const handleOnClick = () => {
     auth.signOut();
-    props.history.push('/signup');
+    props.history.push('/login');
   };
   return (
     <div>

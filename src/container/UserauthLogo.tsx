@@ -16,7 +16,7 @@ const SideWrapper = styled.div`
   width: 100%;
   max-width: 600px;
   height: 400px;
-  margin-top: 150px;
+  margin-top: 130px;
   padding-left: 35px;
   @media (max-width: 500px) {
     display: none;

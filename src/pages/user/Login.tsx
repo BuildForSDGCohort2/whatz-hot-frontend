@@ -28,27 +28,28 @@ import { connect } from 'react-redux';
 import SpinnerUi from '../../container/Spinnerui';
 import { RouteComponentProps } from 'react-router';
 import { setUiLoading } from '../../redux/actions/uiActions';
+import { user } from '../../redux/models/User';
+import { setLoadUser } from '../../redux/actions/userAction';
+import { bindActionCreators } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { AppActions } from '../../redux/types/appAction';
 
 interface Istate {
-  fullName: string;
   email: string;
   password: string;
-  isSignedIn: Boolean;
   error: Boolean;
   errMessage: Array<any>;
 }
 interface Iprops extends RouteComponentProps<{ history: any }> {}
 
-type props = Iprops & LinkStateProp;
+type props = Iprops & LinkStateProp & LinkDispatchProp;
 
-class Signup extends Component<props, Istate> {
+class Login extends Component<props, Istate> {
   constructor(props: props) {
     super(props);
     this.state = {
-      fullName: '',
       email: '',
       password: '',
-      isSignedIn: false,
       error: false,
       errMessage: []
     };
@@ -57,23 +58,34 @@ class Signup extends Component<props, Istate> {
   handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setUiLoading();
-    const displayName = this.state.fullName;
+    let idtoken: string | undefined;
     const newUser = {
       email: this.state.email,
       password: this.state.password
     };
     auth
-      .createUserWithEmailAndPassword(newUser.email, newUser.password)
+      .signInWithEmailAndPassword(newUser.email, newUser.password)
+      .then((data) => {
+        return data.user?.getIdToken();
+      })
+      .then((token) => {
+        idtoken = token;
+      })
       .then(() => {
         const user = auth.currentUser;
-        if (user !== null && this.state.fullName !== null) {
-          user?.sendEmailVerification();
-          user?.updateProfile({
-            displayName
-          });
+        if (!user?.emailVerified) {
+          this.props.history.push('/success');
+        } else {
+          const userCred = {
+            id: user?.uid,
+            displayName: user?.displayName,
+            email: user?.email,
+            photoUrl: user.photoURL,
+            token: idtoken
+          };
+          this.props.setLoadUser(userCred);
+          this.props.history.push('/homepage');
         }
-        this.props.history.push('/success');
-        console.log(user);
       })
       .catch((err) => {
         switch (err.code) {
@@ -87,25 +99,28 @@ class Signup extends Component<props, Istate> {
               error: true,
               errMessage: err.message
             });
-          case 'auth/email-already-in-use':
-            return this.setState({
-              error: true,
-              errMessage: err.message
-            });
           case 'auth/weak-password':
             return this.setState({
               error: true,
               errMessage: err.message
             });
+          case 'auth/wrong-password':
+            return this.setState({
+              error: true,
+              errMessage: err.message
+            });
+          case 'auth/user-not-found':
+            return this.setState({
+              error: true,
+              errMessage: err.message
+            });
           default:
-            console.log(err);
-            return 'Sign up failed! please try again';
+            return 'Log in failed';
         }
       });
     this.setState({
       email: '',
       password: '',
-      fullName: '',
       error: false,
       errMessage: []
     });
@@ -137,16 +152,18 @@ class Signup extends Component<props, Istate> {
                 <FormWrapper>
                   <Form onSubmit={this.handleSubmit}>
                     <div>
-                      <H2>sign up for whatz-hot</H2>
-                      <SubHeading>connect to local businesses</SubHeading>
+                      <H2>sign in to whatz hot</H2>
+                      <SubHeading>
+                        new to whatz hot? <Link to='/signup'>sign up</Link>
+                      </SubHeading>
                       <LegalCopy>
-                        By continuing, you agree to whatz hot’s{' '}
+                        By logging in, you agree to whatz hot’s{' '}
                         <Link to='/termsofservice'> Terms of Service</Link> and
                         acknowledge whatz hot's
                         <Link to='/privacypolicy'> Privacy Policy.</Link>
                       </LegalCopy>
                       <ButtonWrapper>
-                        <StyleFirebaseAuthUi fullLabel={'Sign up'} />
+                        <StyleFirebaseAuthUi fullLabel={'Log In'} />
                       </ButtonWrapper>
                       <SpanWrapper>
                         <SpanBorder></SpanBorder>
@@ -159,21 +176,6 @@ class Signup extends Component<props, Istate> {
                         <H6>{this.state.errMessage}</H6>
                       </InputWrapper>
                     ) : null}
-                    <NameWrapper>
-                      <InputWrapper>
-                        <FormGroup label='Full Name' labelFor='full-name'>
-                          <InputGroup
-                            id='full-name'
-                            type='text'
-                            name='fullName'
-                            placeholder='Full name'
-                            minLength={8}
-                            value={this.state.fullName}
-                            onChange={this.handleChange}
-                          />
-                        </FormGroup>
-                      </InputWrapper>
-                    </NameWrapper>
                     <NameWrapper>
                       <InputWrapper>
                         <FormGroup label='Email' labelFor='email'>
@@ -209,12 +211,9 @@ class Signup extends Component<props, Istate> {
                         onSubmit={this.handleSubmit}
                         disabled={!!loading}
                       >
-                        Sign Up
+                        Log In
                       </Button>
                     </ButtonWrapper>
-                    <LegalCopy>
-                      Already a member? <Link to='/login'>Sign In</Link>
-                    </LegalCopy>
                   </Form>
                 </FormWrapper>
               </Col>
@@ -233,8 +232,21 @@ interface LinkStateProp {
   ui: Ui;
 }
 
-const mapStateToProps = (state: AppState, ownprops: props): LinkStateProp => ({
+interface LinkDispatchProp {
+  setLoadUser: (User: user) => void;
+  setUiLoading: () => void;
+}
+
+const mapStateToProps = (state: AppState, ownprops: Iprops): LinkStateProp => ({
   ui: state.Ui
 });
 
-export default connect(mapStateToProps)(Signup);
+const mapDispatchToProp = (
+  dispatch: ThunkDispatch<any, any, AppActions>,
+  ownprops: Iprops
+) => ({
+  setLoadUser: bindActionCreators(setLoadUser, dispatch),
+  setUiLoading: bindActionCreators(setUiLoading, dispatch)
+});
+
+export default connect(mapStateToProps, mapDispatchToProp)(Login);
