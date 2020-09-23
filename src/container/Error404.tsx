@@ -5,7 +5,7 @@ const Error404 = () => {
   return (
     <>
       <Card>
-        <H1>404 page not found</H1>
+        <H1>Error 404 page not found</H1>
       </Card>
     </>
   );
