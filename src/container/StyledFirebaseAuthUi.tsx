@@ -1,9 +1,12 @@
 import React from 'react';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase';
+import { firebasemerch } from '../utils/MerchantUiConfig';
 
 interface Iprops {
   fullLabel: string;
+  firebaseauth: any;
+  firebaseui: any;
 }
 interface signinprops {
   signInFlow: string;
@@ -11,24 +14,28 @@ interface signinprops {
   signInOptions: Array<any>;
 }
 
-const StyledFirebaseAuthUi: React.FC<Iprops> = ({ fullLabel }) => {
+const StyledFirebaseAuthUi: React.FC<Iprops> = ({
+  fullLabel,
+  firebaseauth,
+  firebaseui
+}) => {
   const uiConfig: signinprops = {
     signInFlow: 'redirect',
     signInSuccessUrl: '/homepage',
     signInOptions: [
       {
-        provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        provider: firebaseui.GoogleAuthProvider.PROVIDER_ID,
         fullLabel: `${fullLabel} with Google`
       },
       {
-        provider: firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+        provider: firebaseui.FacebookAuthProvider.PROVIDER_ID,
         fullLabel: `${fullLabel} with Facebook`
       }
     ]
   };
   return (
     <>
-      <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+      <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebaseauth} />
     </>
   );
 };

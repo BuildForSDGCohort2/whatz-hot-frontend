@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import UserauthLogo from '../../container/UserauthLogo';
 import UserauthHeader from '../../container/UserauthHeader';
 import StyleFirebaseAuthUi from '../../container/StyledFirebaseAuthUi';
-import { auth } from '../../utils/Uiconfig';
+import { auth, authui } from '../../utils/Uiconfig';
 import {
   Wrapper,
   ButtonWrapper,
@@ -163,7 +163,11 @@ class Login extends Component<props, Istate> {
                         <Link to='/privacypolicy'> Privacy Policy.</Link>
                       </LegalCopy>
                       <ButtonWrapper>
-                        <StyleFirebaseAuthUi fullLabel={'Log In'} />
+                        <StyleFirebaseAuthUi
+                          fullLabel={'Log In'}
+                          firebaseauth={auth}
+                          firebaseui={authui}
+                        />
                       </ButtonWrapper>
                       <SpanWrapper>
                         <SpanBorder></SpanBorder>
@@ -183,6 +187,7 @@ class Login extends Component<props, Istate> {
                             id='email'
                             type='email'
                             name='email'
+                            required
                             placeholder='Email'
                             value={this.state.email}
                             onChange={this.handleChange}
@@ -194,6 +199,7 @@ class Login extends Component<props, Istate> {
                             type='password'
                             name='password'
                             placeholder='Password'
+                            required
                             minLength={6}
                             value={this.state.password}
                             onChange={this.handleChange}

@@ -12,10 +12,13 @@ const config = {
   appId: '1:586486734887:web:bc62a3d980f3c13e61ee02'
 };
 
+const uifirebase = firebase;
+
 if (!firebase.apps.length) {
   firebase.initializeApp(config);
 }
 
+const authui = firebase.auth;
 const auth = firebase.auth();
 const db = firebase.firestore();
-export { auth, db };
+export { auth, db, authui };

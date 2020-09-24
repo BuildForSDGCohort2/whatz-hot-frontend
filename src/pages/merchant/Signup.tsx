@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { FormGroup, InputGroup, Button, Alignment } from '@blueprintjs/core';
 import { Link } from 'react-router-dom';
-import UserauthLogo from '../../container/UserauthLogo';
+import MerchantauthLogo from '../../container/MerchantauthLogo';
 import UserauthHeader from '../../container/UserauthHeader';
 import StyleFirebaseAuthUi from '../../container/StyledFirebaseAuthUi';
-import { auth, authui } from '../../utils/Uiconfig';
+import { auth, authmerch } from '../../utils/MerchantUiConfig';
 import {
   Wrapper,
   ButtonWrapper,
@@ -138,19 +138,12 @@ class Signup extends Component<props, Istate> {
                 <FormWrapper>
                   <Form onSubmit={this.handleSubmit}>
                     <div>
-                      <H2>sign up for whatz-hot</H2>
-                      <SubHeading>connect to local businesses</SubHeading>
-                      <LegalCopy>
-                        By continuing, you agree to whatz hot’s{' '}
-                        <Link to='/termsofservice'> Terms of Service</Link> and
-                        acknowledge whatz hot's
-                        <Link to='/privacypolicy'> Privacy Policy.</Link>
-                      </LegalCopy>
+                      <H2>sign up for whatz-hot for businesses</H2>
                       <ButtonWrapper>
                         <StyleFirebaseAuthUi
                           fullLabel={'Sign up'}
                           firebaseauth={auth}
-                          firebaseui={authui}
+                          firebaseui={authmerch}
                         />
                       </ButtonWrapper>
                       <SpanWrapper>
@@ -172,7 +165,6 @@ class Signup extends Component<props, Istate> {
                             type='text'
                             name='fullName'
                             placeholder='Full name'
-                            required
                             minLength={8}
                             value={this.state.fullName}
                             onChange={this.handleChange}
@@ -188,7 +180,6 @@ class Signup extends Component<props, Istate> {
                             type='email'
                             name='email'
                             placeholder='Email'
-                            required
                             value={this.state.email}
                             onChange={this.handleChange}
                           />
@@ -199,7 +190,6 @@ class Signup extends Component<props, Istate> {
                             type='password'
                             name='password'
                             placeholder='Password'
-                            required
                             minLength={6}
                             value={this.state.password}
                             onChange={this.handleChange}
@@ -227,7 +217,7 @@ class Signup extends Component<props, Istate> {
                 </FormWrapper>
               </Col>
               <Col>
-                <UserauthLogo />
+                <MerchantauthLogo />
               </Col>
             </Row>
           </Wrapper>
