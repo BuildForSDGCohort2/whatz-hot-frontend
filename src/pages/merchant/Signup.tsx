@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import MerchantauthLogo from '../../container/MerchantauthLogo';
 import UserauthHeader from '../../container/UserauthHeader';
 import StyleFirebaseAuthUi from '../../container/StyledFirebaseAuthUi';
-import { auth, authmerch } from '../../utils/MerchantUiConfig';
+import { merchantAuth } from '../../utils/MerchantUiConfig';
 import {
   Wrapper,
   ButtonWrapper,
@@ -63,10 +63,10 @@ class Signup extends Component<props, Istate> {
       email: this.state.email,
       password: this.state.password
     };
-    auth
+    merchantAuth
       .createUserWithEmailAndPassword(newUser.email, newUser.password)
       .then(() => {
-        const user = auth.currentUser;
+        const user = merchantAuth.currentUser;
         if (user !== null && this.state.fullName !== null) {
           user?.sendEmailVerification();
           user?.updateProfile({
@@ -139,11 +139,16 @@ class Signup extends Component<props, Istate> {
                   <Form onSubmit={this.handleSubmit}>
                     <div>
                       <H2>sign up for whatz-hot for businesses</H2>
+                      <LegalCopy>
+                        By continuing, you agree to whatz hot’s{' '}
+                        <Link to='/termsofservice'> Terms of Service</Link> and
+                        acknowledge whatz hot's
+                        <Link to='/privacypolicy'> Privacy Policy.</Link>
+                      </LegalCopy>
                       <ButtonWrapper>
                         <StyleFirebaseAuthUi
                           fullLabel={'Sign up'}
-                          firebaseauth={auth}
-                          firebaseui={authmerch}
+                          firebaseauth={merchantAuth}
                         />
                       </ButtonWrapper>
                       <SpanWrapper>

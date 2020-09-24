@@ -1,12 +1,12 @@
 import React from 'react';
 import { Button } from '@blueprintjs/core';
-import { auth } from '../utils/Uiconfig';
 import { RouteComponentProps } from 'react-router';
+import { userAuth } from '../utils/Uiconfig';
 
 interface Iprops extends RouteComponentProps<any> {}
 const Homepage: React.FC<Iprops> = (props) => {
   const handleOnClick = () => {
-    auth.signOut();
+    userAuth.signOut();
     props.history.push('/login');
   };
   return (

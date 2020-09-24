@@ -12,12 +12,11 @@ const config = {
   appId: '1:76187464623:web:943afe78e2e40d0c6ab55a'
 };
 
-const firebasemerch = firebase;
-if (!firebase.apps.length) {
-  firebase.initializeApp(config);
+let merchantApp = firebase.apps.find((app) => {
+  return app.name === 'MerchantApp';
+});
+if (!merchantApp) {
+  merchantApp = firebase.initializeApp(config, 'MerchantApp');
 }
 
-const authmerch = firebase.auth;
-const auth = firebase.auth();
-const db = firebase.firestore();
-export { auth, db, authmerch, firebasemerch };
+export const merchantAuth = merchantApp.auth();

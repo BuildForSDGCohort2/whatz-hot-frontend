@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import UserauthLogo from '../../container/UserauthLogo';
 import UserauthHeader from '../../container/UserauthHeader';
 import StyleFirebaseAuthUi from '../../container/StyledFirebaseAuthUi';
-import { auth, authui } from '../../utils/Uiconfig';
+import { userAuth } from '../../utils/Uiconfig';
 import {
   Wrapper,
   ButtonWrapper,
@@ -20,7 +20,8 @@ import {
   H6,
   Span,
   SpanWrapper,
-  SpanBorder
+  SpanBorder,
+  LinkInfo
 } from '../../styles/userauthstyles';
 import { AppState } from '../../redux';
 import { Ui } from '../../redux/models/ui';
@@ -63,7 +64,7 @@ class Login extends Component<props, Istate> {
       email: this.state.email,
       password: this.state.password
     };
-    auth
+    userAuth
       .signInWithEmailAndPassword(newUser.email, newUser.password)
       .then((data) => {
         return data.user?.getIdToken();
@@ -72,7 +73,7 @@ class Login extends Component<props, Istate> {
         idtoken = token;
       })
       .then(() => {
-        const user = auth.currentUser;
+        const user = userAuth.currentUser;
         if (!user?.emailVerified) {
           this.props.history.push('/success');
         } else {
@@ -165,8 +166,7 @@ class Login extends Component<props, Istate> {
                       <ButtonWrapper>
                         <StyleFirebaseAuthUi
                           fullLabel={'Log In'}
-                          firebaseauth={auth}
-                          firebaseui={authui}
+                          firebaseauth={userAuth}
                         />
                       </ButtonWrapper>
                       <SpanWrapper>
@@ -220,6 +220,9 @@ class Login extends Component<props, Istate> {
                         Log In
                       </Button>
                     </ButtonWrapper>
+                    <LinkInfo>
+                      <Link to='/login'>Forgot password?</Link>
+                    </LinkInfo>
                   </Form>
                 </FormWrapper>
               </Col>

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import UserauthLogo from '../../container/UserauthLogo';
 import UserauthHeader from '../../container/UserauthHeader';
 import StyleFirebaseAuthUi from '../../container/StyledFirebaseAuthUi';
-import { auth, authui } from '../../utils/Uiconfig';
+import { userAuth } from '../../utils/Uiconfig';
 import {
   Wrapper,
   ButtonWrapper,
@@ -63,10 +63,10 @@ class Signup extends Component<props, Istate> {
       email: this.state.email,
       password: this.state.password
     };
-    auth
+    userAuth
       .createUserWithEmailAndPassword(newUser.email, newUser.password)
       .then(() => {
-        const user = auth.currentUser;
+        const user = userAuth.currentUser;
         if (user !== null && this.state.fullName !== null) {
           user?.sendEmailVerification();
           user?.updateProfile({
@@ -149,8 +149,7 @@ class Signup extends Component<props, Istate> {
                       <ButtonWrapper>
                         <StyleFirebaseAuthUi
                           fullLabel={'Sign up'}
-                          firebaseauth={auth}
-                          firebaseui={authui}
+                          firebaseauth={userAuth}
                         />
                       </ButtonWrapper>
                       <SpanWrapper>
