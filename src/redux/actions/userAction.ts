@@ -40,6 +40,7 @@ export const setLoadUser = (userData: {
         ...usercred
       })
     );
+    dispatch(loadingUser());
   };
 };
 

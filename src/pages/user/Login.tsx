@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FormGroup, InputGroup, Button, Alignment } from '@blueprintjs/core';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import UserauthLogo from '../../container/UserauthLogo';
 import UserauthHeader from '../../container/UserauthHeader';
 import StyleFirebaseAuthUi from '../../container/StyledFirebaseAuthUi';
@@ -40,6 +40,7 @@ interface Istate {
   password: string;
   error: Boolean;
   errMessage: Array<any>;
+  redirectToReferrer: Boolean;
 }
 interface Iprops extends RouteComponentProps<{ history: any }> {}
 
@@ -52,7 +53,8 @@ class Login extends Component<props, Istate> {
       email: '',
       password: '',
       error: false,
-      errMessage: []
+      errMessage: [],
+      redirectToReferrer: false
     };
   }
 
@@ -85,6 +87,9 @@ class Login extends Component<props, Istate> {
             token: idtoken
           };
           this.props.setLoadUser(userCred);
+          this.setState({
+            redirectToReferrer: true
+          });
           this.props.history.push('/homepage');
         }
       })
@@ -137,6 +142,11 @@ class Login extends Component<props, Istate> {
     const {
       ui: { loading }
     } = this.props;
+    const { from } = this.props.location.state || { from: { pathname: '/' } };
+    const { redirectToReferrer } = this.state;
+    if (redirectToReferrer === true) {
+      return <Redirect to={from} />;
+    }
     return (
       <>
         {loading ? (

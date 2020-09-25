@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FormGroup, InputGroup, Button, Alignment } from '@blueprintjs/core';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import MerchantauthLogo from '../../container/MerchantauthLogo';
 import UserauthHeader from '../../container/UserauthHeader';
 import StyleFirebaseAuthUi from '../../container/StyledFirebaseAuthUi';
@@ -14,7 +14,6 @@ import {
   Form,
   H2,
   LegalCopy,
-  SubHeading,
   NameWrapper,
   InputWrapper,
   H6,
@@ -37,6 +36,7 @@ interface Istate {
   isSignedIn: Boolean;
   error: Boolean;
   errMessage: Array<any>;
+  redirectToReferrer: Boolean;
 }
 interface Iprops extends RouteComponentProps<{ history: any }> {}
 
@@ -51,7 +51,8 @@ class Signup extends Component<props, Istate> {
       password: '',
       isSignedIn: false,
       error: false,
-      errMessage: []
+      errMessage: [],
+      redirectToReferrer: false
     };
   }
 
@@ -73,6 +74,9 @@ class Signup extends Component<props, Istate> {
             displayName
           });
         }
+        this.setState({
+          redirectToReferrer: true
+        });
         this.props.history.push('/success');
         console.log(user);
       })
@@ -122,6 +126,11 @@ class Signup extends Component<props, Istate> {
     const {
       ui: { loading }
     } = this.props;
+    const { from } = this.props.location.state || { from: { pathname: '/' } };
+    const { redirectToReferrer } = this.state;
+    if (redirectToReferrer === true) {
+      return <Redirect to={from} />;
+    }
     return (
       <>
         {loading ? (
