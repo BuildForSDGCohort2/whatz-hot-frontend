@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { FormGroup, InputGroup, Button, Alignment } from '@blueprintjs/core';
-import { Link } from 'react-router-dom';
-import UserauthLogo from '../../container/UserauthLogo';
+import { Link, Redirect } from 'react-router-dom';
+import MerchantauthLogo from '../../container/MerchantauthLogo';
 import UserauthHeader from '../../container/UserauthHeader';
 import StyleFirebaseAuthUi from '../../container/StyledFirebaseAuthUi';
-import { userAuth } from '../../utils/Uiconfig';
+import { merchantAuth } from '../../utils/MerchantUiConfig';
 import {
   Wrapper,
   ButtonWrapper,
@@ -14,7 +14,6 @@ import {
   Form,
   H2,
   LegalCopy,
-  SubHeading,
   NameWrapper,
   InputWrapper,
   H6,
@@ -37,6 +36,7 @@ interface Istate {
   isSignedIn: Boolean;
   error: Boolean;
   errMessage: Array<any>;
+  redirectToReferrer: Boolean;
 }
 interface Iprops extends RouteComponentProps<{ history: any }> {}
 
@@ -51,7 +51,8 @@ class Signup extends Component<props, Istate> {
       password: '',
       isSignedIn: false,
       error: false,
-      errMessage: []
+      errMessage: [],
+      redirectToReferrer: false
     };
   }
 
@@ -63,16 +64,19 @@ class Signup extends Component<props, Istate> {
       email: this.state.email,
       password: this.state.password
     };
-    userAuth
+    merchantAuth
       .createUserWithEmailAndPassword(newUser.email, newUser.password)
       .then(() => {
-        const user = userAuth.currentUser;
+        const user = merchantAuth.currentUser;
         if (user !== null && this.state.fullName !== null) {
           user?.sendEmailVerification();
           user?.updateProfile({
             displayName
           });
         }
+        this.setState({
+          redirectToReferrer: true
+        });
         this.props.history.push('/user/success');
         console.log(user);
       })
@@ -122,6 +126,11 @@ class Signup extends Component<props, Istate> {
     const {
       ui: { loading }
     } = this.props;
+    const { from } = this.props.location.state || { from: { pathname: '/' } };
+    const { redirectToReferrer } = this.state;
+    if (redirectToReferrer === true) {
+      return <Redirect to={from} />;
+    }
     return (
       <>
         {loading ? (
@@ -138,8 +147,7 @@ class Signup extends Component<props, Istate> {
                 <FormWrapper>
                   <Form onSubmit={this.handleSubmit}>
                     <div>
-                      <H2>sign up for whatz-hot</H2>
-                      <SubHeading>connect to local businesses</SubHeading>
+                      <H2>sign up for whatz-hot for businesses</H2>
                       <LegalCopy>
                         By continuing, you agree to whatz hot’s{' '}
                         <Link to='/termsofservice'> Terms of Service</Link> and
@@ -149,7 +157,7 @@ class Signup extends Component<props, Istate> {
                       <ButtonWrapper>
                         <StyleFirebaseAuthUi
                           fullLabel={'Sign up'}
-                          firebaseauth={userAuth}
+                          firebaseauth={merchantAuth}
                         />
                       </ButtonWrapper>
                       <SpanWrapper>
@@ -171,7 +179,6 @@ class Signup extends Component<props, Istate> {
                             type='text'
                             name='fullName'
                             placeholder='Full name'
-                            required
                             minLength={8}
                             value={this.state.fullName}
                             onChange={this.handleChange}
@@ -187,7 +194,6 @@ class Signup extends Component<props, Istate> {
                             type='email'
                             name='email'
                             placeholder='Email'
-                            required
                             value={this.state.email}
                             onChange={this.handleChange}
                           />
@@ -198,7 +204,6 @@ class Signup extends Component<props, Istate> {
                             type='password'
                             name='password'
                             placeholder='Password'
-                            required
                             minLength={6}
                             value={this.state.password}
                             onChange={this.handleChange}
@@ -220,13 +225,13 @@ class Signup extends Component<props, Istate> {
                       </Button>
                     </ButtonWrapper>
                     <LinkRef>
-                      Already a member? <Link to='/user/login'>Sign In</Link>
+                      Already a member? <Link to='/login'>Sign In</Link>
                     </LinkRef>
                   </Form>
                 </FormWrapper>
               </Col>
               <Col>
-                <UserauthLogo />
+                <MerchantauthLogo />
               </Col>
             </Row>
           </Wrapper>

@@ -12,10 +12,11 @@ const config = {
   appId: '1:586486734887:web:bc62a3d980f3c13e61ee02'
 };
 
-if (!firebase.apps.length) {
-  firebase.initializeApp(config);
+let userApp = firebase.apps.find((app) => {
+  return app.name === 'UserApp';
+});
+if (!userApp) {
+  userApp = firebase.initializeApp(config, 'UserApp');
 }
 
-const auth = firebase.auth();
-const db = firebase.firestore();
-export { auth, db };
+export const userAuth = userApp.auth();

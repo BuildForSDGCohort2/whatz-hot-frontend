@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { FormGroup, InputGroup, Button, Alignment } from '@blueprintjs/core';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import UserauthLogo from '../../container/UserauthLogo';
 import UserauthHeader from '../../container/UserauthHeader';
 import StyleFirebaseAuthUi from '../../container/StyledFirebaseAuthUi';
-import { auth } from '../../utils/Uiconfig';
+import { userAuth } from '../../utils/Uiconfig';
 import {
   Wrapper,
   ButtonWrapper,
@@ -20,7 +20,8 @@ import {
   H6,
   Span,
   SpanWrapper,
-  SpanBorder
+  SpanBorder,
+  LinkInfo
 } from '../../styles/userauthstyles';
 import { AppState } from '../../redux';
 import { Ui } from '../../redux/models/ui';
@@ -39,6 +40,7 @@ interface Istate {
   password: string;
   error: Boolean;
   errMessage: Array<any>;
+  redirectToReferrer: Boolean;
 }
 interface Iprops extends RouteComponentProps<{ history: any }> {}
 
@@ -51,7 +53,8 @@ class Login extends Component<props, Istate> {
       email: '',
       password: '',
       error: false,
-      errMessage: []
+      errMessage: [],
+      redirectToReferrer: false
     };
   }
 
@@ -63,7 +66,7 @@ class Login extends Component<props, Istate> {
       email: this.state.email,
       password: this.state.password
     };
-    auth
+    userAuth
       .signInWithEmailAndPassword(newUser.email, newUser.password)
       .then((data) => {
         return data.user?.getIdToken();
@@ -72,9 +75,9 @@ class Login extends Component<props, Istate> {
         idtoken = token;
       })
       .then(() => {
-        const user = auth.currentUser;
+        const user = userAuth.currentUser;
         if (!user?.emailVerified) {
-          this.props.history.push('/success');
+          this.props.history.push('/user/success');
         } else {
           const userCred = {
             id: user?.uid,
@@ -84,6 +87,9 @@ class Login extends Component<props, Istate> {
             token: idtoken
           };
           this.props.setLoadUser(userCred);
+          this.setState({
+            redirectToReferrer: true
+          });
           this.props.history.push('/homepage');
         }
       })
@@ -136,6 +142,11 @@ class Login extends Component<props, Istate> {
     const {
       ui: { loading }
     } = this.props;
+    const { from } = this.props.location.state || { from: { pathname: '/' } };
+    const { redirectToReferrer } = this.state;
+    if (redirectToReferrer === true) {
+      return <Redirect to={from} />;
+    }
     return (
       <>
         {loading ? (
@@ -154,7 +165,7 @@ class Login extends Component<props, Istate> {
                     <div>
                       <H2>sign in to whatz hot</H2>
                       <SubHeading>
-                        new to whatz hot? <Link to='/signup'>sign up</Link>
+                        new to whatz hot? <Link to='/user/signup'>sign up</Link>
                       </SubHeading>
                       <LegalCopy>
                         By logging in, you agree to whatz hot’s{' '}
@@ -163,7 +174,10 @@ class Login extends Component<props, Istate> {
                         <Link to='/privacypolicy'> Privacy Policy.</Link>
                       </LegalCopy>
                       <ButtonWrapper>
-                        <StyleFirebaseAuthUi fullLabel={'Log In'} />
+                        <StyleFirebaseAuthUi
+                          fullLabel={'Log In'}
+                          firebaseauth={userAuth}
+                        />
                       </ButtonWrapper>
                       <SpanWrapper>
                         <SpanBorder></SpanBorder>
@@ -183,6 +197,7 @@ class Login extends Component<props, Istate> {
                             id='email'
                             type='email'
                             name='email'
+                            required
                             placeholder='Email'
                             value={this.state.email}
                             onChange={this.handleChange}
@@ -194,6 +209,7 @@ class Login extends Component<props, Istate> {
                             type='password'
                             name='password'
                             placeholder='Password'
+                            required
                             minLength={6}
                             value={this.state.password}
                             onChange={this.handleChange}
@@ -214,6 +230,9 @@ class Login extends Component<props, Istate> {
                         Log In
                       </Button>
                     </ButtonWrapper>
+                    <LinkInfo>
+                      <Link to='/login'>Forgot password?</Link>
+                    </LinkInfo>
                   </Form>
                 </FormWrapper>
               </Col>

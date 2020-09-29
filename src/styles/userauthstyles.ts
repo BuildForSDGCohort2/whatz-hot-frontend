@@ -99,3 +99,18 @@ export const SpanBorder = styled.span`
   display: block;
   border-bottom: 1px solid grey;
 `;
+
+export const LinkInfo = styled.p`
+  text-align: right;
+  margin-top: 10px;
+  color: #333;
+  font-size: 12px;
+  line-height: 1.5em;
+`;
+export const LinkRef = styled.p`
+  text-align: center;
+  margin-top: 10px;
+  color: #333;
+  font-size: 12px;
+  line-height: 1.5em;
+`;

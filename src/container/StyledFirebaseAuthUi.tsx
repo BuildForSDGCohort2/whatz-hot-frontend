@@ -4,6 +4,7 @@ import firebase from 'firebase';
 
 interface Iprops {
   fullLabel: string;
+  firebaseauth: any;
 }
 interface signinprops {
   signInFlow: string;
@@ -11,7 +12,10 @@ interface signinprops {
   signInOptions: Array<any>;
 }
 
-const StyledFirebaseAuthUi: React.FC<Iprops> = ({ fullLabel }) => {
+const StyledFirebaseAuthUi: React.FC<Iprops> = ({
+  fullLabel,
+  firebaseauth
+}) => {
   const uiConfig: signinprops = {
     signInFlow: 'redirect',
     signInSuccessUrl: '/homepage',
@@ -28,7 +32,7 @@ const StyledFirebaseAuthUi: React.FC<Iprops> = ({ fullLabel }) => {
   };
   return (
     <>
-      <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+      <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebaseauth} />
     </>
   );
 };
