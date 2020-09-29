@@ -34,7 +34,7 @@ const AuthRoute: React.FC<props> = ({
 );
 
 AuthRoute.prototype = {
-  user: PropTypes.bool.isRequired
+  user: PropTypes.object.isRequired
 };
 interface LinkstateProps {
   user: usersReducerState;

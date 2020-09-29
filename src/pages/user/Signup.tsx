@@ -21,7 +21,6 @@ import {
   Span,
   SpanWrapper,
   SpanBorder,
-  LinkInfo,
   LinkRef
 } from '../../styles/userauthstyles';
 import { AppState } from '../../redux';
