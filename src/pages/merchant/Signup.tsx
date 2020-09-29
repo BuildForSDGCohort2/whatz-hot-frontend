@@ -20,7 +20,8 @@ import {
   Span,
   SpanWrapper,
   SpanBorder,
-  LinkInfo
+  LinkInfo,
+  LinkRef
 } from '../../styles/userauthstyles';
 import { AppState } from '../../redux';
 import { Ui } from '../../redux/models/ui';
@@ -224,9 +225,9 @@ class Signup extends Component<props, Istate> {
                         Sign Up
                       </Button>
                     </ButtonWrapper>
-                    <LinkInfo>
+                    <LinkRef>
                       Already a member? <Link to='/login'>Sign In</Link>
-                    </LinkInfo>
+                    </LinkRef>
                   </Form>
                 </FormWrapper>
               </Col>

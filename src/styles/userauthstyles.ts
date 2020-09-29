@@ -107,3 +107,10 @@ export const LinkInfo = styled.p`
   font-size: 12px;
   line-height: 1.5em;
 `;
+export const LinkRef = styled.p`
+  text-align: center;
+  margin-top: 10px;
+  color: #333;
+  font-size: 12px;
+  line-height: 1.5em;
+`;

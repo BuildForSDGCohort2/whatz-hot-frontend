@@ -22,7 +22,7 @@ const App = () => {
           <Route exact path='/' component={header} />
           <AuthRoute exact path='/homepage' component={Homepage} />
           <Route exact path='/user/signup' component={Signup} />
-          <Route exact path='/business/signup' component={MerchantSignup} />
+          <Route exact path='/merchant/signup' component={MerchantSignup} />
           <Route exact path='/user/login' component={Login} />
           <Route exact path='/user/success' component={VerifyEmail} />
           <Route path='*' component={Error404} />
