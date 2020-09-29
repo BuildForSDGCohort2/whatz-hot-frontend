@@ -73,7 +73,7 @@ class Signup extends Component<props, Istate> {
             displayName
           });
         }
-        this.props.history.push('/success');
+        this.props.history.push('/user/success');
         console.log(user);
       })
       .catch((err) => {
@@ -220,7 +220,7 @@ class Signup extends Component<props, Istate> {
                       </Button>
                     </ButtonWrapper>
                     <LinkInfo>
-                      Already a member? <Link to='/login'>Sign In</Link>
+                      Already a member? <Link to='/user/login'>Sign In</Link>
                     </LinkInfo>
                   </Form>
                 </FormWrapper>

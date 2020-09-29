@@ -35,22 +35,29 @@ export const setLoadUser = (userData: {
       token = ''
     } = userData;
     const usercred = { id, displayName, email, photoUrl, token };
+    dispatch(loadingUser());
     dispatch(
       loadUser({
         ...usercred
       })
     );
-    dispatch(loadingUser());
+    dispatch(authenticatedUser());
   };
 };
 
 export const setAuthenticatedUser = () => {
   return (dispatch: Dispatch<AppActions>, getState: () => void) => {
-    dispatch(loadingUser());
+    dispatch(authenticatedUser());
   };
 };
 
 export const setUnAuthenticatedUser = () => {
+  return (dispatch: Dispatch<AppActions>, getState: () => void) => {
+    dispatch(unAuthenticatedUser());
+  };
+};
+
+export const setLoadingUser = () => {
   return (dispatch: Dispatch<AppActions>, getState: () => void) => {
     dispatch(loadingUser());
   };

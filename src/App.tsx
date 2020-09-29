@@ -24,7 +24,7 @@ const App = () => {
           <Route exact path='/user/signup' component={Signup} />
           <Route exact path='/business/signup' component={MerchantSignup} />
           <Route exact path='/user/login' component={Login} />
-          <Route exact path='/success' component={VerifyEmail} />
+          <Route exact path='/user/success' component={VerifyEmail} />
           <Route path='*' component={Error404} />
         </Switch>
       </Router>

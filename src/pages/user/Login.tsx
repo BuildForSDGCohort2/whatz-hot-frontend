@@ -77,7 +77,7 @@ class Login extends Component<props, Istate> {
       .then(() => {
         const user = userAuth.currentUser;
         if (!user?.emailVerified) {
-          this.props.history.push('/success');
+          this.props.history.push('/user/success');
         } else {
           const userCred = {
             id: user?.uid,
@@ -165,7 +165,7 @@ class Login extends Component<props, Istate> {
                     <div>
                       <H2>sign in to whatz hot</H2>
                       <SubHeading>
-                        new to whatz hot? <Link to='/signup'>sign up</Link>
+                        new to whatz hot? <Link to='/user/signup'>sign up</Link>
                       </SubHeading>
                       <LegalCopy>
                         By logging in, you agree to whatz hot’s{' '}

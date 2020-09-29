@@ -77,7 +77,7 @@ class Signup extends Component<props, Istate> {
         this.setState({
           redirectToReferrer: true
         });
-        this.props.history.push('/success');
+        this.props.history.push('/user/success');
         console.log(user);
       })
       .catch((err) => {
